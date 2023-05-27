@@ -19,6 +19,8 @@ public class WindFarm : IEntity<int>
     
     public string Status { get; set; }
 
+    public AppUser Owner { get; set; }
+
     public ICollection<Turbine> WindTurbines { get; set; } = new List<Turbine>();
     
     public ICollection<WindFarmSnapshot> PowerPlantStatuses { get; set; } = new List<WindFarmSnapshot>();
