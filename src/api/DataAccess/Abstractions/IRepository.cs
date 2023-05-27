@@ -3,9 +3,10 @@ using System.Linq.Expressions;
 
 namespace DataAccess.Abstractions;
 
-public interface IRepository<TEntity> where TEntity : IEntity<string>
+public interface IRepository<TEntity, in TKey> 
+    where TEntity : IEntity<TKey>
 {
-    Task<TEntity> GetAsync(string id);
+    Task<TEntity> GetAsync(TKey id);
 
     Task<IQueryable<TEntity>> GetAllAsync(PaginationFilterBase filter);
 

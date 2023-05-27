@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services.Repositories;
 
-internal sealed class UserRepository : Repository<AppUser>, IUserRepository
+internal sealed class UserRepository : Repository<AppUser, string>, IUserRepository
 {
     public UserRepository(ApplicationContext context) : base(context) { }
 
