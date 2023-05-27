@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.Models.AppUser;
 using BusinessLogic.Models.WindFarm;
+using BusinessLogic.Models.WindTurbine;
 using DataAccess.Entities;
 using GenericWebApi.Requests.Auth;
 
@@ -15,5 +16,8 @@ public class DefaultProfile : Profile
 
 		CreateMap<WindFarmCreateModel, WindFarm>();
 		CreateMap<WindFarm, WindFarmViewModel>();
+
+		CreateMap<WindTurbineCreateModel, Turbine>();
+		CreateMap<Turbine, TurbineViewModel>();
 	}
 }
