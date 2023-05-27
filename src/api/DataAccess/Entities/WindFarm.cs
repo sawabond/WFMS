@@ -14,8 +14,8 @@ public class WindFarm : IEntity<int>
     public string Location { get; set; }
     
     public double Capacity { get; set; }
-    
-    public DateTime CommissioningDate { get; set; }
+
+    public DateTime CommissioningDate { get; set; } = DateTime.UtcNow;
     
     public string Status { get; set; }
 

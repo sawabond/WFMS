@@ -214,9 +214,6 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<double>("Capacity")
                         .HasColumnType("float");
 
@@ -231,13 +228,17 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("WindFarm");
                 });
@@ -402,9 +403,13 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.WindFarm", b =>
                 {
-                    b.HasOne("DataAccess.Entities.AppUser", null)
+                    b.HasOne("DataAccess.Entities.AppUser", "Owner")
                         .WithMany("Farms")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WindFarmSnapshot", b =>

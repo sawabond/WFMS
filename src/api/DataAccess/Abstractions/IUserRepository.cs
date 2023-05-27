@@ -4,5 +4,5 @@ namespace DataAccess.Abstractions;
 
 public interface IUserRepository : IRepository<AppUser, string>
 {
-    public Task<IEnumerable<AppUser>> GetUsersIncludingAll();
+    public Task<AppUser> GetUserIncludingAll(string id);
 }

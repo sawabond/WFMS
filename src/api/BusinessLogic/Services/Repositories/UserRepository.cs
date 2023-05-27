@@ -11,8 +11,14 @@ internal sealed class UserRepository : Repository<AppUser, string>, IUserReposit
 
     private DbSet<AppUser> Users => Context.Users;
 
-    public Task<IEnumerable<AppUser>> GetUsersIncludingAll()
+    public Task<AppUser> GetUserIncludingAll(string id)
     {
-        throw new NotImplementedException();
+        return Users
+            .Include(x => x.Farms)
+            .ThenInclude(x => x.WindTurbines)
+            .ThenInclude(x => x.TurbineSnapshots)
+            .Include(x => x.Farms)
+            .ThenInclude(x => x.PowerPlantStatuses)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 }
