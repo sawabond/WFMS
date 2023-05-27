@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 
 namespace BusinessLogic.Services.Repositories;
 
-internal abstract class Repository<TEntity> : IRepository<TEntity>
-    where TEntity : class, IEntity<string>
+internal abstract class Repository<TEntity, TKey>
+    where TEntity : class, IEntity<TKey>
 {
     public Repository(ApplicationContext context)
     {
@@ -39,7 +39,7 @@ internal abstract class Repository<TEntity> : IRepository<TEntity>
         return Entities.AsQueryable().ApplyFilter(filter);
     }
 
-    public async Task<TEntity> GetAsync(string id)
+    public async Task<TEntity> GetAsync(TKey id)
     {
         return await Entities.FindAsync(id);
     }
