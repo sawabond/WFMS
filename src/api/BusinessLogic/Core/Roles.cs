@@ -10,5 +10,5 @@ public static class Roles
 
     public const string User = "User";
 
-    public static string[] AllowedRoles => new string[] { Admin, Moder, User };
+    public static string[] AllowedRoles => new [] { Admin, Moder, User };
 }
