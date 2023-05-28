@@ -11,4 +11,7 @@ public sealed record TurbineViewModel
     double PitchAngle,
     double GlobalAngle,
     double PowerRating,
-    WindTurbineStatus Status);
+    WindTurbineStatus Status)
+{
+    public string StatusString => Status.ToString();
+}

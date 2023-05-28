@@ -11,4 +11,7 @@ public interface ITurbineService
     Task<Result<IEnumerable<TurbineViewModel>>> GetAllWindFarmTurbines(string userId, int farmId);
     Task<Result<TurbineViewModel>> GetTurbineById(string userId, int farmId, int turbineId);
     Task<Result<int>> DeleteTurbine(string userId, int farmId, int turbineId);
+    Task<Result<bool>> RunNormalized(string userId, int farmId, int turbineId);
+    Task<Result<bool>> RunOptimized(string userId, int farmId, int turbineId);
+    Task<Result<bool>> TurnOff(string userId, int farmId, int turbineId);
 }

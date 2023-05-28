@@ -154,7 +154,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WindFarmId");
 
-                    b.ToTable("Turbine");
+                    b.ToTable("Turbines");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.TurbineSnapshot", b =>
@@ -203,7 +203,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("TurbineId");
 
-                    b.ToTable("TurbineSnapshot");
+                    b.ToTable("TurbineSnapshots");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WindFarm", b =>
@@ -240,7 +240,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("WindFarm");
+                    b.ToTable("WindFarms");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WindFarmSnapshot", b =>
@@ -270,7 +270,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("WindFarmId");
 
-                    b.ToTable("WindFarmSnapshot");
+                    b.ToTable("WindFarmSnapshots");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

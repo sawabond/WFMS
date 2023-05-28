@@ -96,6 +96,60 @@ public sealed class WindFarmController : ControllerBase
             result.Value);
     }
     
+    [HttpPatch("{farmId:int}/turbine/{turbineId:int}/run-normalized")]
+    public async Task<IActionResult> RunNormalized(int farmId, int turbineId)
+    {
+        var result = await _turbineService.RunNormalized(User.Identity.GetUserId(), farmId, turbineId);
+
+        if (result.IsFailed)
+        {
+            return BadRequest(result.ToErrors());
+        }
+
+        if (result.Value)
+        {
+            return Ok($"The turbine with id {turbineId} was turned on successfully");
+        }
+
+        return Ok($"The turbine with id {turbineId} was already working");
+    }
+    
+    [HttpPatch("{farmId:int}/turbine/{turbineId:int}/run-optimized")]
+    public async Task<IActionResult> RunOptimized(int farmId, int turbineId)
+    {
+        var result = await _turbineService.RunOptimized(User.Identity.GetUserId(), farmId, turbineId);
+
+        if (result.IsFailed)
+        {
+            return BadRequest(result.ToErrors());
+        }
+
+        if (result.Value)
+        {
+            return Ok($"The turbine with id {turbineId} mode was set to 'Optimized'");
+        }
+
+        return Ok($"The turbine with id {turbineId} is already optimized");
+    }
+    
+    [HttpPatch("{farmId:int}/turbine/{turbineId:int}/turn-off")]
+    public async Task<IActionResult> TurnOff(int farmId, int turbineId)
+    {
+        var result = await _turbineService.TurnOff(User.Identity.GetUserId(), farmId, turbineId);
+
+        if (result.IsFailed)
+        {
+            return BadRequest(result.ToErrors());
+        }
+
+        if (result.Value)
+        {
+            return Ok($"The turbine with id {turbineId} was turned off");
+        }
+
+        return Ok($"The turbine with id {turbineId} is already turned off");
+    }
+    
     [HttpDelete("{farmId:int}/turbine/{turbineId:int}")]
     public async Task<IActionResult> DeleteTurbineById(int farmId, int turbineId)
     {
