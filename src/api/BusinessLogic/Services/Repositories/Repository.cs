@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace BusinessLogic.Services.Repositories;
 
-internal abstract class Repository<TEntity, TKey>
+public abstract class Repository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
 {
     public Repository(ApplicationContext context)

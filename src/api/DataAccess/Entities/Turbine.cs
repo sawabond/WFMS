@@ -36,11 +36,11 @@ public class Turbine : IEntity<int>
     /// Full potential of this turbine to make electricity.
     /// </summary>
     public double PowerRating { get; set; }
-    
+
     /// <summary>
     /// Any of <see cref="WindTurbineStatus"/>
     /// </summary>
-    public WindTurbineStatus Status { get; set; }
+    public WindTurbineStatus Status { get; set; } = WindTurbineStatus.Offline;
 
     public ICollection<TurbineSnapshot> TurbineSnapshots { get; set; } = new List<TurbineSnapshot>();
 }

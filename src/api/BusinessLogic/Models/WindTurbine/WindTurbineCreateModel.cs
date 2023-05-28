@@ -5,6 +5,5 @@ public sealed record WindTurbineCreateModel
     double Latitude,
     double Longitude,
     double HeightMeters,
-    double PitchAngle,
     double GlobalAngle,
     double PowerRating);
