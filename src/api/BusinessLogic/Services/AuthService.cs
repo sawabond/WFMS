@@ -8,6 +8,7 @@ using DataAccess.Entities;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using System.Web;
+using SendGrid.Helpers.Mail;
 
 namespace BusinessLogic.Services;
 
@@ -130,7 +131,8 @@ public sealed class AuthService : IAuthService
         var mail = new MailData(
             user.Email,
             "Email confirmation",
-            $"Confirm your email by <a href={link}>this link</a>");
+            $"<p>Confirm your email by <a href='{link}'>this link</a></p>");
+        
 
         var sendEmailResult = await _mailService.SendAsync(mail);
 

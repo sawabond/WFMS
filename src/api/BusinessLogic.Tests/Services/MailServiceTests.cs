@@ -71,7 +71,7 @@ public class MailServiceTests
 
 		Expression<Func<SendGridMessage, bool>> expectedMessage =
 			msg => msg.From.Email == _options.EmailFrom
-			&& msg.Contents.Any(c => c.Value == ValidMailData.Body)
+			&& msg.Contents.Any(c => c.Value == ValidMailData.HtmlContent)
 			&& msg.Personalizations.Any(p => p.Subject == ValidMailData.Subject)
 			&& msg.Personalizations.Any(
 				p => p.Tos.Any(to => to.Email == ValidMailData.To));

@@ -34,10 +34,11 @@ public sealed class MailService : IMailService
             var from = new EmailAddress(_settings.EmailFrom, _settings.NickNameFrom);
             var to = new EmailAddress(mailData.To, mailData.To);
             var subject = mailData.Subject;
-            var htmlContent = mailData.Body;
+            var htmlContent = mailData.HtmlContent;
 
             var message = MailHelper.CreateSingleEmail(from, to, subject, string.Empty, htmlContent);
-
+            message.SetClickTracking(false, false);
+            
             _logger.LogTrace(
                 "Sending email from {from} to {to} with subject {subject}",
                 from.Email, to.Email, subject);
