@@ -6,7 +6,7 @@ import './App.scss';
 import Login from './pages/Login/Login';
 import { userContext } from './Contexts/userContext';
 import ImportMembers from './pages/ImportMembers/ImportMembers';
-import CreateWindFarm from './pages/CreateWindFarm/CreateWindFarm';
+import CreateWindFarm from './pages/WindFarm/CreateWindFarm';
 import AchievementSystems from './pages/AchievementsSystems/AchievementsSystems';
 import Achievement from './pages/Achievement/Achievement';
 import CreateAchievements from './pages/CreateAchievements/CreateAchievements';
@@ -18,6 +18,7 @@ import { initReactI18next } from 'react-i18next';
 import { translationsEn, translationsUk } from './translations.js';
 import ConfirmEmail from './pages/ConfirmEmail/ConfirmEmail';
 import EmailConfirmed from './pages/ConfirmEmail/EmailConfirmed';
+import WindFarmDetails from './pages/WindFarm/WindFarmDetails';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -48,8 +49,9 @@ function App() {
             <Route path="*" element={<NotFound />} />
 
             <Route element={<ProtectedRoute />}>
-              <Route path="/import" element={<ImportMembers />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/create-wind-farm" element={<CreateWindFarm />} />
+              <Route path="/wind-farms/:id" element={<WindFarmDetails />} />
               <Route path="/system" element={<AchievementSystems />} />
               <Route path="/system-achievements" element={<Achievement />} />
               <Route

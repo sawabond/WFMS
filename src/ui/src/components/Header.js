@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -18,6 +17,7 @@ import '../components/Header.scss';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@mui/material';
+import { Home } from '@mui/icons-material';
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -146,12 +146,12 @@ export default function PrimarySearchAppBar() {
 
           {user ? (
             <>
-              <Tooltip title={t('TOOL_IMPORT_USER')}>
-                <Link to={'/import'}>
-                  <GroupAddIcon style={{ color: 'white' }} />
+              <Tooltip title={t('HOME')}>
+                <Link to={'/home'}>
+                  <Home style={{ color: 'white' }} />
                 </Link>
               </Tooltip>
-              <Tooltip title={t('CREATE_ACHIEVEMENT_SYSTEM')}>
+              <Tooltip title={t('CREATE_WIND_FARM')}>
                 <Link to={'/create-wind-farm'}>
                   <NoteAddIcon style={{ color: 'white' }} />
                 </Link>
