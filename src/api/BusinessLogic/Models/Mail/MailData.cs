@@ -2,16 +2,16 @@
 
 public sealed class MailData
 {
-    public MailData(string to, string subject, string body = null)
+    public MailData(string to, string subject, string htmlContent = null)
     {
         To = to;
         Subject = subject;
-        Body = body;
+        HtmlContent = htmlContent;
     }
 
     public string To { get; }
 
     public string Subject { get; }
 
-    public string Body { get; }
+    public string HtmlContent { get; }
 }
