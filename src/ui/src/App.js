@@ -51,7 +51,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/home" element={<Home />} />
               <Route path="/create-wind-farm" element={<CreateWindFarm />} />
-              <Route path="/wind-farms/:id" element={<WindFarmDetails />} />
+              <Route path="/wind-farms/:farmId" element={<WindFarmDetails />} />
               <Route path="/system" element={<AchievementSystems />} />
               <Route path="/system-achievements" element={<Achievement />} />
               <Route

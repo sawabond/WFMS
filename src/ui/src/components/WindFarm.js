@@ -53,7 +53,7 @@ export default function WindFarm({ windFarm }) {
           variant="body2"
           color="text.secondary"
         >
-          {windFarm.location}
+          {t('LOCATION')}: {windFarm.location}
         </Typography>
         <Typography
           sx={{
@@ -62,7 +62,7 @@ export default function WindFarm({ windFarm }) {
           variant="body2"
           color="text.secondary"
         >
-          {windFarm.capacity}
+          {t('CAPACITY')}: {windFarm.capacity}
         </Typography>
       </CardContent>
       <CardActions

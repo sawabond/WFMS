@@ -29,7 +29,7 @@ const useStyle = makeStyles((theme) => ({
 
 export default function WindFarmDetails() {
   const { t } = useTranslation();
-  const { id } = useParams();
+  const { farmId } = useParams();
   const authHeaders = useAuthHeaders();
 
   const [windFarm, setWindFarm] = useState({});
@@ -40,7 +40,7 @@ export default function WindFarmDetails() {
     setLoading(true);
 
     axiosClient
-      .get(`/WindFarm/${id}`, headers)
+      .get(`/WindFarm/${farmId}`, headers)
       .then((response) => {
         setLoading(false);
         setWindFarm(response.data.data);
@@ -133,7 +133,27 @@ export default function WindFarmDetails() {
                         type="Submit"
                         className={classes.button}
                       >
-                        {t('ADD_NEW_WINDFARM')}
+                        {t('UPDATE_WINDFARM_DATA')}
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={() =>
+                          window.location.replace(
+                            `wind-farms/${farmId}/turbines`
+                          )
+                        }
+                      >
+                        {t('VIEW_WINDFARM_TURBINES')}
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="Submit"
+                        className={classes.button}
+                      >
+                        {t('ADD_NEW_TURBINE')}
                       </Button>
                     </CardActions>
                   </Form>

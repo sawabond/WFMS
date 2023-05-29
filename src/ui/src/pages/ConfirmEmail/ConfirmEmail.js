@@ -29,6 +29,7 @@ function ConfirmEmail() {
           <LinkText
             link="https://mail.google.com/mail/u/0/#advanced-search/from=noreply.generic.web.api%40gmail.com&query=confirm+your+email&isrefinement=true&fromdisplay=noreply.generic.web.api%40gmail.com"
             text={t('OPEN_EMAIL')}
+            isNewWindow={true}
           />
         </Typography>
       </div>
