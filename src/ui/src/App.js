@@ -19,6 +19,7 @@ import { translationsEn, translationsUk } from './translations.js';
 import ConfirmEmail from './pages/ConfirmEmail/ConfirmEmail';
 import EmailConfirmed from './pages/ConfirmEmail/EmailConfirmed';
 import WindFarmDetails from './pages/WindFarm/WindFarmDetails';
+import WindFarmTurbines from './pages/WindFarmTurbines/WindFarmTurbines';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -52,6 +53,10 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/create-wind-farm" element={<CreateWindFarm />} />
               <Route path="/wind-farms/:farmId" element={<WindFarmDetails />} />
+              <Route
+                path="/wind-farms/:farmId/turbines"
+                element={<WindFarmTurbines />}
+              />
               <Route path="/system" element={<AchievementSystems />} />
               <Route path="/system-achievements" element={<Achievement />} />
               <Route

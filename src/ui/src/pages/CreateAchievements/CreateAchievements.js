@@ -77,7 +77,7 @@ export default function CreateAchievements() {
               {({ values }) => {
                 return (
                   <Form>
-                    <CardContent>
+                    <CardContent style={{ justifyContent: 'center' }}>
                       <Grid item container spacing={1} justifyContent="center">
                         <Grid item xs={12} sm={6} md={6}>
                           <Field

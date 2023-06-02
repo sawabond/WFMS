@@ -101,6 +101,7 @@ export default function WindFarmDetails() {
                             name="name"
                             value={values.name}
                             component={TextField}
+                            InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
@@ -111,6 +112,7 @@ export default function WindFarmDetails() {
                             name="location"
                             value={values.location}
                             component={TextField}
+                            InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
@@ -122,11 +124,12 @@ export default function WindFarmDetails() {
                             type="number"
                             value={values.capacity}
                             component={TextField}
+                            InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                       </Grid>
                     </CardContent>
-                    <CardActions>
+                    <CardActions style={{ justifyContent: 'center' }}>
                       <Button
                         variant="contained"
                         color="primary"
@@ -140,9 +143,7 @@ export default function WindFarmDetails() {
                         color="primary"
                         className={classes.button}
                         onClick={() =>
-                          window.location.replace(
-                            `wind-farms/${farmId}/turbines`
-                          )
+                          window.location.replace(`${farmId}/turbines`)
                         }
                       >
                         {t('VIEW_WINDFARM_TURBINES')}
