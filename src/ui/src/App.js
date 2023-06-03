@@ -50,7 +50,7 @@ function App() {
             />
             <Route path="*" element={<NotFound />} />
 
-            <Route element={<ProtectedRoute />}>
+            <Route element={<ProtectedRoute expectedRole={'User'} />}>
               <Route path="/home" element={<Home />} />
               <Route path="/create-wind-farm" element={<CreateWindFarm />} />
               <Route path="/wind-farms/:farmId" element={<WindFarmDetails />} />
@@ -68,6 +68,9 @@ function App() {
                 path="/create-achievements"
                 element={<CreateAchievements />}
               />
+            </Route>
+            <Route element={<ProtectedRoute expectedRole={'Admin'} />}>
+              <Route path="/admin" element={<Home />} />
             </Route>
           </Routes>
         </userContext.Provider>

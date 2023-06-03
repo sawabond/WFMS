@@ -30,10 +30,10 @@ public sealed class TokenService : ITokenService
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new (ClaimTypes.NameIdentifier, user.Id),
+            new (ClaimTypes.Name, user.UserName ?? string.Empty),
+            new (ClaimTypes.Email, user.Email ?? string.Empty),
+            new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
         var roles = await _userManager.GetRolesAsync(user);
