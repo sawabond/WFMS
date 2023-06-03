@@ -153,6 +153,9 @@ export default function WindFarmDetails() {
                         color="primary"
                         type="Submit"
                         className={classes.button}
+                        onClick={() =>
+                          (window.location.href = `${farmId}/turbines/create`)
+                        }
                       >
                         {t('ADD_NEW_TURBINE')}
                       </Button>

@@ -5,8 +5,11 @@ import axiosClient from '../../api/axiosClient';
 import useAuthHeaders from '../../hooks/useAuthHeaders';
 import { useParams } from 'react-router';
 import Turbine from '../../components/Turbine/Turbine';
+import LinkText from '../../components/LinkText';
+import { useTranslation } from 'react-i18next';
 
 export default function WindFarmTurbines() {
+  const { t } = useTranslation();
   const [windFarmTurbines, setWindFarmTurbines] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const headers = useAuthHeaders();
@@ -40,6 +43,22 @@ export default function WindFarmTurbines() {
           {windFarmTurbines.map((x) => {
             return <Turbine turbine={x} farmId={farmId} />;
           })}
+          {windFarmTurbines.length === 0 && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: '20%',
+                fontSize: '30px',
+              }}
+            >
+              <LinkText
+                link="create-wind-farm"
+                text={t('YOU_DONT_HAVE_TURBINES')}
+              />
+            </div>
+          )}
         </div>
       )}
     </>

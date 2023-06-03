@@ -9,7 +9,7 @@ import {
   CardHeader,
 } from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';
-import { Select, TextField } from 'formik-material-ui';
+import { TextField } from 'formik-material-ui';
 import Header from '../../components/Header';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import axiosClient from '../../api/axiosClient';
 import useAuthHeaders from '../../hooks/useAuthHeaders';
 import { useParams } from 'react-router-dom';
-import TurbineWithWind from '../../components/Turbine/TurbineWithWind';
 
 const useStyle = makeStyles((theme) => ({
   padding: {

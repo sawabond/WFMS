@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import LanguageIcon from '@mui/icons-material/Language';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { userContext } from '../Contexts/userContext';
@@ -18,8 +17,14 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@mui/material';
 import { Home } from '@mui/icons-material';
+import useRBAC from '../hooks/useRBAC';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 export default function PrimarySearchAppBar() {
+  const roles = useRBAC();
+  const isAdmin = roles.includes('Admin') || roles.includes('Moder');
+  const iconColor = isAdmin ? 'yellow' : 'white';
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [languageAnchorEl, setLanguageAnchorEl] = useState(null);
 
@@ -64,13 +69,13 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {user && user ? (
+      {user ? (
         <div className="menu-login">
           <MenuItem onClick={logOut}>{t('LOGOUT')}</MenuItem>
         </div>
       ) : (
         <div className="menu-unlogin">
-          <Link to={'/registr'}>
+          <Link to={'/register'}>
             <MenuItem onClick={handleMenuClose}>{t('REGISTRATION')}</MenuItem>
           </Link>
           <Link to={'/login'}>
@@ -141,34 +146,43 @@ export default function PrimarySearchAppBar() {
         position="static"
         style={{ backgroundColor: '#1976d2', color: 'white' }}
       >
-        <Toolbar style={{ display: 'flex', gap: '1%' }}>
+        <Toolbar
+          style={{ display: 'flex', justifyContent: 'flex-start', gap: '1%' }}
+        >
+          {user ? (
+            <Tooltip title={t('HOME')}>
+              <Link to={'/home'}>
+                <Home style={{ color: iconColor, fontSize: '32px' }} />
+              </Link>
+            </Tooltip>
+          ) : null}
           <Box sx={{ flexGrow: 1 }} />
-
           {user ? (
             <>
-              <Tooltip title={t('HOME')}>
-                <Link to={'/home'}>
-                  <Home style={{ color: 'white' }} />
-                </Link>
-              </Tooltip>
+              {isAdmin ? (
+                <Tooltip title={t('USERS')}>
+                  <Link to={'/users'}>
+                    <AdminPanelSettingsIcon
+                      style={{ color: iconColor, fontSize: '32px' }}
+                    />
+                  </Link>
+                </Tooltip>
+              ) : null}
               <Tooltip title={t('CREATE_WIND_FARM')}>
                 <Link to={'/create-wind-farm'}>
-                  <NoteAddIcon style={{ color: 'white' }} />
-                </Link>
-              </Tooltip>
-              <Tooltip title={t('TOOL_ACHIEVEMNT_SYSTEMS')}>
-                <Link to={'/system'}>
-                  <EmojiEventsIcon style={{ color: 'white' }} />
+                  <NoteAddIcon style={{ color: iconColor, fontSize: '32px' }} />
                 </Link>
               </Tooltip>
             </>
-          ) : (
-            ''
-          )}
-
-          <LanguageIcon onClick={handleLanguageMenuOpen} />
-
-          <AccountCircle onClick={handleProfileMenuOpen} />
+          ) : null}
+          <LanguageIcon
+            onClick={handleLanguageMenuOpen}
+            style={{ fontSize: '32px', color: iconColor }}
+          />
+          <AccountCircle
+            onClick={handleProfileMenuOpen}
+            style={{ fontSize: '32px', color: iconColor }}
+          />
         </Toolbar>
       </AppBar>
       {renderLanguageMenu}

@@ -28,8 +28,6 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const runningModes = ['Normal', 'Optimized', 'Offline'];
-
 export default function WindFarmTurbineDetails() {
   const { t } = useTranslation();
   const { farmId, turbineId } = useParams();
@@ -40,8 +38,17 @@ export default function WindFarmTurbineDetails() {
   const [isLoading, setLoading] = useState(false);
   const headers = useAuthHeaders();
 
+  const loadTurbine = () => {
+    axiosClient
+      .get(`/WindFarm/${farmId}/Turbines/${turbineId}`, headers)
+      .then((response) => {
+        setTurbine(response.data.data);
+      })
+      .catch((err) => console.warn(err));
+  };
+
   useEffect(() => {
-    setLoading(true);
+    loadTurbine();
   }, []);
 
   useEffect(() => {
@@ -55,12 +62,7 @@ export default function WindFarmTurbineDetails() {
         })
         .catch((err) => console.warn(err));
 
-      axiosClient
-        .get(`/WindFarm/${farmId}/Turbines/${turbineId}`, headers)
-        .then((response) => {
-          setTurbine(response.data.data);
-        })
-        .catch((err) => console.warn(err));
+      loadTurbine();
 
       setLoading(false);
     };
@@ -98,7 +100,7 @@ export default function WindFarmTurbineDetails() {
   const turnOff = () => patchTurbine('turn-off');
 
   const patchTurbine = (patchRoute) => {
-    axiosClient
+    return axiosClient
       .patch(
         `/WindFarm/${farmId}/Turbines/${turbineId}/${patchRoute}`,
         {},
@@ -107,6 +109,28 @@ export default function WindFarmTurbineDetails() {
       .then((response) => {
         if (response) {
           toast.success(response.data);
+          if (patchRoute === 'turn-off') {
+            setTurbine((prev) => {
+              return {
+                ...prev,
+                statusString: 'Offline',
+              };
+            });
+          } else if (patchRoute === 'run-normalized') {
+            setTurbine((prev) => {
+              return {
+                ...prev,
+                statusString: 'Normal',
+              };
+            });
+          } else if (patchRoute === 'run-optimized') {
+            setTurbine((prev) => {
+              return {
+                ...prev,
+                statusString: 'Optimized',
+              };
+            });
+          }
         }
       })
       .catch((error) => toast.warn(error.response.data.join('\n')));
