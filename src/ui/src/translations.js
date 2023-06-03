@@ -43,6 +43,38 @@ let translationsEn = {
     'Please, confirm your email. Confirmation message was sent to email',
   OPEN_EMAIL: 'Open email',
   YOUR_EMAIL_WAS_CONFIRMED: 'Your email has been confirmed',
+
+  TURBINE: 'Turbine',
+  HEIGHT_METERS: 'Height in meters',
+  LONGITUDE: 'Longitude',
+  LATITUDE: 'Latitude',
+  POWER_RATING: 'Power rating',
+  GLOBAL_ANGLE: 'Global angle',
+  CREATE_TURBINE: 'Create a turbine',
+
+  CREATE_WIND_FARM: 'Create a wind farm',
+  UPDATE_WINDFARM_DATA: 'Update wind farm data',
+  VIEW_WINDFARM_TURBINES: 'View wind farm turbines',
+  ADD_NEW_TURBINE: 'Add new turbine',
+  PITCH_ANGLE: 'Pitch angle',
+  STATUS: 'Mode',
+
+  TURBINE_ANGLE: 'Turbine angle',
+  WIND_ANGLE: 'Wind angle',
+  MODE: 'Mode',
+
+  UPDATE_TURBINE_DATA: 'Update turbine data',
+  RUN_NORMALIZED: 'Run in normal mode',
+  RUN_OPTIMIZED: 'Run in optimized mode',
+  TURN_OFF: 'Turn off',
+
+  USERS: 'Users',
+  EMAIL: 'Email',
+  ID: 'Id',
+  USER: 'User',
+
+  UPDATE_USER_DATA: 'Update user data',
+  REMOVE_USER: 'Remove the user',
 };
 
 let translationsUk = {
@@ -59,7 +91,7 @@ let translationsUk = {
   LOGOUT: 'Вийти',
   REGISTRATION: 'Реєстрація',
   UNKNOWN_ERROR_OCCURRED: 'Сталася невідома помилка',
-  NAME: "Ім'я",
+  NAME: "Ім'я або назва",
   DESCRIPTION: 'Опис',
   LOCATION: 'Адреса',
   CAPACITY: 'Вмісткість',
@@ -90,6 +122,38 @@ let translationsUk = {
     'Повідомлення про підтвердження було відправлене на пошту',
   OPEN_EMAIL: 'Відкрити пошту',
   YOUR_EMAIL_WAS_CONFIRMED: 'Ваша електронна адреса була підтверджена',
+
+  TURBINE: 'Вітряк',
+  HEIGHT_METERS: 'Висота в метрах',
+  LONGITUDE: 'Довгота',
+  LATITUDE: 'Широта',
+  POWER_RATING: 'Рейтинг потужності',
+  GLOBAL_ANGLE: 'Глобальний кут',
+  CREATE_TURBINE: 'Створити турбіну',
+
+  CREATE_WIND_FARM: 'Створити вітрогенераторну ферму',
+  UPDATE_WINDFARM_DATA: 'Оновити дані вітрогенераторної ферми',
+  VIEW_WINDFARM_TURBINES: 'Переглянути турбіни вітрогенераторної ферми',
+  ADD_NEW_TURBINE: 'Додати нову турбіну',
+  PITCH_ANGLE: 'Кут нахилу',
+  STATUS: 'Статус',
+
+  TURBINE_ANGLE: 'Кут турбіни',
+  WIND_ANGLE: 'Кут вітру',
+  MODE: 'Режим',
+
+  UPDATE_TURBINE_DATA: 'Оновити дані турбіни',
+  RUN_NORMALIZED: 'Запустити в нормальному режимі',
+  RUN_OPTIMIZED: 'Запустити в оптимізованому режимі',
+  TURN_OFF: 'Вимкнути',
+
+  USERS: 'Користувачі',
+  EMAIL: 'Електронна пошта',
+  ID: 'Ідентифікатор',
+  USER: 'Користувач',
+
+  UPDATE_USER_DATA: 'Оновити дані користувача',
+  REMOVE_USER: 'Видалити користувача',
 };
 
 export { translationsEn, translationsUk };

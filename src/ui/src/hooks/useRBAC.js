@@ -12,7 +12,7 @@ function useRBAC() {
     return [];
   }
 
-  return token.role.count === 1 ? [token.role] : token.role;
+  return token.role.length === 1 ? [token.role] : token.role;
 }
 
 export default useRBAC;
