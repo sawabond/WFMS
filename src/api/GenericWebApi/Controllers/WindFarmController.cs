@@ -108,7 +108,7 @@ public sealed class WindFarmController : ControllerBase
 
         if (result.Value)
         {
-            return Ok($"The turbine with id {turbineId} was turned on successfully");
+            return Ok($"The mode of a turbine with id {turbineId} was set to 'Normal'");
         }
 
         return Ok($"The turbine with id {turbineId} was already working");

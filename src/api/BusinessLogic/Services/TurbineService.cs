@@ -33,7 +33,7 @@ internal sealed class TurbineService : ITurbineService
 
         var turbine = farm.WindTurbines.FirstOrDefault(x => x.Id == turbineId);
 
-        if (turbine.Status == WindTurbineStatus.Offline)
+        if (turbine.Status == WindTurbineStatus.Offline || turbine.Status == WindTurbineStatus.Optimized)
         {
             turbine.Status = WindTurbineStatus.Normal;
             await _userRepository.ConfirmAsync();
