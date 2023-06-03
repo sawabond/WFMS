@@ -5,7 +5,6 @@ import Registration from './pages/Registration/Registration';
 import './App.scss';
 import Login from './pages/Login/Login';
 import { userContext } from './Contexts/userContext';
-import ImportMembers from './pages/ImportMembers/ImportMembers';
 import CreateWindFarm from './pages/WindFarm/CreateWindFarm';
 import AchievementSystems from './pages/AchievementsSystems/AchievementsSystems';
 import Achievement from './pages/Achievement/Achievement';
@@ -21,6 +20,8 @@ import EmailConfirmed from './pages/ConfirmEmail/EmailConfirmed';
 import WindFarmDetails from './pages/WindFarm/WindFarmDetails';
 import WindFarmTurbines from './pages/WindFarmTurbines/WindFarmTurbines';
 import WindFarmTurbineDetails from './pages/WindFarmTurbines/WindFarmTurbineDetails';
+import Admin from './pages/Admin/Users';
+import UserDetails from './pages/Admin/UserDetails';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -70,7 +71,8 @@ function App() {
               />
             </Route>
             <Route element={<ProtectedRoute expectedRole={'Admin'} />}>
-              <Route path="/admin" element={<Home />} />
+              <Route path="/users" element={<Admin />} />
+              <Route path="/users/:userId" element={<UserDetails />} />
             </Route>
           </Routes>
         </userContext.Provider>
