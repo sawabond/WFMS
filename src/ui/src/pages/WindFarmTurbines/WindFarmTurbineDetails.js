@@ -56,7 +56,7 @@ export default function WindFarmTurbineDetails() {
       setLoading(true);
 
       axiosClient
-        .get(`Monitoring/wind-state`, headers)
+        .get(`Monitoring/wind-state?turbineId=${turbineId}`, headers)
         .then((response) => {
           setConditionsState(response.data);
         })
