@@ -236,6 +236,17 @@ export default function WindFarmTurbineDetails() {
                         color="primary"
                         type="Submit"
                         className={classes.button}
+                        onClick={() =>
+                          window.location.replace(`${turbineId}/dashboard`)
+                        }
+                      >
+                        {t('VIEW_STATISTICS')}
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        type="Submit"
+                        className={classes.button}
                         onClick={turnOff}
                       >
                         {t('TURN_OFF')}

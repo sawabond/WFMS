@@ -44,32 +44,50 @@ public sealed class WindSimulator : WindTurbineDataSubscriber, IHostedService
             eventArgs.ApplicationMessage.ConvertPayloadToString());
         
         var windFarms = await windFarmRepository.GetAllWindFarmsIncludingAll();
-        var turbines = windFarms.SelectMany(x => x.WindTurbines);
 
-        foreach (var turbine in turbines)
+        foreach (var windFarm in windFarms)
         {
-            ProcessRotation(turbine);
+            foreach (var turbine in windFarm.WindTurbines)
+            {
+                ProcessRotation(turbine);
 
-            turbine.TurbineSnapshots.Add(new()
+                turbine.TurbineSnapshots.Add(new()
+                {
+                    Timestamp = _turbineData.Timestamp,
+                    TemperatureCelsius = _turbineData.Temperature,
+                    WindSpeed = _turbineData.WindSpeed,
+                    RotorSpeed = _turbineData.RotorSpeed,
+                    PowerOutput = Math.Max(_turbineData.PowerOutput, turbine.PowerRating),
+                    Voltage = _turbineData.Voltage,
+                    BladeAngle = _turbineData.BladeAngle,
+                    Current = _turbineData.Current,
+                    Humidity = _turbineData.Humidity,
+                    Status = turbine.Status,
+                    PitchAngle = turbine.PitchAngle,
+                    GlobalAngle = turbine.GlobalAngle,
+                    MaintenanceRequired = false,
+                    LastMaintenanceDate = null,
+                    StatusComment = null,
+                    StatusReason = null,
+                });
+                _logger.LogInformation("Processing of turbine with id {@Id} has finished", turbine.Id);
+            }
+
+            var totalPowerOutput = windFarm.WindTurbines.Sum(_ => _turbineData.PowerOutput);
+            var totalPowerCapacity = windFarm.WindTurbines.Sum(x => x.PowerRating);
+
+            if (totalPowerOutput > totalPowerCapacity)
+            {
+                totalPowerOutput = totalPowerCapacity;
+            }
+            
+            windFarm.PowerPlantStatuses.Add(new()
             {
                 Timestamp = _turbineData.Timestamp,
-                TemperatureCelsius = _turbineData.Temperature,
-                WindSpeed = _turbineData.WindSpeed,
-                RotorSpeed = _turbineData.RotorSpeed,
-                PowerOutput = _turbineData.PowerOutput,
-                Voltage = _turbineData.Voltage,
-                BladeAngle = _turbineData.BladeAngle,
-                Current = _turbineData.Current,
-                Humidity = _turbineData.Humidity,
-                Status = turbine.Status,
-                PitchAngle = turbine.PitchAngle,
-                GlobalAngle = turbine.GlobalAngle,
-                MaintenanceRequired = false,
-                LastMaintenanceDate = null,
-                StatusComment = null,
-                StatusReason = null,
+                TotalPowerOutput = totalPowerOutput,
+                TotalPowerCapacity = totalPowerCapacity,
+                Efficiency = totalPowerOutput / totalPowerCapacity * 100
             });
-            _logger.LogInformation("Processing of turbine with id {@Id} has finished", turbine.Id);
         }
         
         await windFarmRepository.ConfirmAsync();

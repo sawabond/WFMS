@@ -23,6 +23,7 @@ import WindFarmTurbineDetails from './pages/WindFarmTurbines/WindFarmTurbineDeta
 import Admin from './pages/Admin/Users';
 import UserDetails from './pages/Admin/UserDetails';
 import CreateWindFarmTurbine from './pages/WindFarmTurbines/CreateWindFarmTurbine';
+import WindFarmTurbineStatistics from './pages/WindFarmTurbines/WindFarmTurbineStatistics';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -63,6 +64,10 @@ function App() {
               <Route
                 path="/wind-farms/:farmId/turbines/:turbineId"
                 element={<WindFarmTurbineDetails />}
+              />
+              <Route
+                path="/wind-farms/:farmId/turbines/:turbineId/dashboard"
+                element={<WindFarmTurbineStatistics />}
               />
               <Route
                 path="/wind-farms/:farmId/turbines/create"
