@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   makeStyles,
@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '../../api/axiosClient';
 import useAuthHeaders from '../../hooks/useAuthHeaders';
+import { useParams } from 'react-router-dom';
 
 const useStyle = makeStyles((theme) => ({
   padding: {
@@ -26,45 +27,62 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const initialValues = {
-  name: '',
-  location: '',
-  capacity: 0,
-};
-
-export default function CreateWindFarm() {
+export default function UserDetails() {
   const { t } = useTranslation();
+  const { userId } = useParams();
   const authHeaders = useAuthHeaders();
 
-  const notifySuccesCreating = () =>
-    toast.success(t('WINDFARM_HAS_BEEN_CREATED') + '!');
-  const notifyWrongCreating = () =>
-    toast.warning(t('WINDFARM_HAS_NOT_BEEN_CREATED') + '!');
+  const [user, setUser] = useState({});
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = () => {
+      setLoading(true);
+
+      axiosClient
+        .get(`User/${userId}`, authHeaders)
+        .then((response) => {
+          setUser(response.data.data);
+        })
+        .catch((err) => toast.warn(err));
+
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
   const classes = useStyle();
-  const onSubmit = (values, { resetForm }) => {
+
+  const onSubmit = (values, { resetForm, setValues }) => {
     axiosClient
-      .post(
-        '/WindFarm',
-        {
-          name: values.name,
-          location: values.location,
-          capacity: values.capacity,
-        },
-        authHeaders
-      )
+      .patch(`/User/${userId}`, values, authHeaders)
       .then((response) => {
         if (response) {
-          notifySuccesCreating();
+          toast.success(t('SUCCESSFULLY_UPDATED_USER_WITH_ID') + ` ${user.id}`);
+          resetForm();
+          setValues(values);
         }
-        if (response.data.error) {
-          notifyWrongCreating();
-        }
-        resetForm();
       })
-      .catch((error) => notifyWrongCreating);
+      .catch((error) => {
+        toast.warn(error.response.data.errors.join('\n'));
+        resetForm();
+      });
   };
 
-  const StorageUser = JSON.parse(sessionStorage.getItem('user'));
+  const removeUser = () => {
+    axiosClient
+      .delete(`/User/${userId}`, authHeaders)
+      .then((response) => {
+        if (response) {
+          toast.success(t('SUCCESSFULLY_DELETED_USER_WITH_ID') + ` ${user.id}`);
+          window.location.replace('/users');
+        }
+      })
+      .catch((error) => {
+        toast.warn(error.response.data.errors.join('\n'));
+      });
+  };
 
   return (
     <>
@@ -76,8 +94,8 @@ export default function CreateWindFarm() {
       >
         <Grid item md={6} style={{ margin: '2%' }}>
           <Card className={classes.padding}>
-            <CardHeader title={t('WIND_FARM')}></CardHeader>
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            <CardHeader title={t('USER')}></CardHeader>
+            <Formik initialValues={user} enableReinitialize onSubmit={onSubmit}>
               {({ values }) => {
                 return (
                   <Form>
@@ -85,45 +103,56 @@ export default function CreateWindFarm() {
                       <Grid item container spacing={1} justifyContent="center">
                         <Grid item xs={12} sm={6} md={6}>
                           <Field
-                            label={t('NAME')}
+                            label={t('ID')}
                             variant="outlined"
                             fullWidth
-                            name="name"
-                            value={values.name}
+                            name="longitude"
+                            value={values.id}
                             component={TextField}
+                            disabled
+                            InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
                           <Field
-                            label={t('LOCATION')}
+                            label={t('USERNAME')}
                             variant="outlined"
                             fullWidth
-                            name="location"
-                            value={values.location}
+                            name="userName"
+                            value={values.userName}
                             component={TextField}
+                            InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
                           <Field
-                            label={t('CAPACITY')}
+                            label={t('EMAIL')}
                             variant="outlined"
                             fullWidth
-                            name="capacity"
-                            type="number"
-                            value={values.capacity}
+                            name="email"
+                            value={values.email}
                             component={TextField}
+                            InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                       </Grid>
                     </CardContent>
-                    <CardActions>
+                    <CardActions style={{ justifyContent: 'center' }}>
                       <Button
                         variant="contained"
                         color="primary"
                         type="Submit"
                         className={classes.button}
                       >
-                        {t('ADD_NEW_WINDFARM')}
+                        {t('UPDATE_USER_DATA')}
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={removeUser}
+                      >
+                        {t('REMOVE_USER')}
                       </Button>
                     </CardActions>
                   </Form>

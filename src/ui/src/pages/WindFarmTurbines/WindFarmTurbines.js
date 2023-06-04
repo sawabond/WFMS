@@ -3,24 +3,26 @@ import Header from '../../components/Header';
 import 'react-toastify/dist/ReactToastify.css';
 import axiosClient from '../../api/axiosClient';
 import useAuthHeaders from '../../hooks/useAuthHeaders';
-import WindFarm from '../../components/WindFarm';
+import { useParams } from 'react-router';
+import Turbine from '../../components/Turbine/Turbine';
 import LinkText from '../../components/LinkText';
 import { useTranslation } from 'react-i18next';
 
-export default function Home() {
+export default function WindFarmTurbines() {
   const { t } = useTranslation();
-  const [windFarms, setWindFarms] = useState([]);
+  const [windFarmTurbines, setWindFarmTurbines] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const headers = useAuthHeaders();
+  const { farmId } = useParams();
 
   useEffect(() => {
     setLoading(true);
 
     axiosClient
-      .get(`/WindFarm/personal`, headers)
+      .get(`/WindFarm/${farmId}/Turbines`, headers)
       .then((response) => {
         setLoading(false);
-        setWindFarms(response.data.data);
+        setWindFarmTurbines(response.data.data);
       })
       .catch((err) => console.warn(err));
   }, []);
@@ -38,25 +40,25 @@ export default function Home() {
             flexDirection: 'column',
           }}
         >
-          {windFarms.map((x) => {
-            return <WindFarm windFarm={x} />;
+          {windFarmTurbines.map((x) => {
+            return <Turbine turbine={x} farmId={farmId} />;
           })}
-        </div>
-      )}
-      {windFarms.length === 0 && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: '20%',
-            fontSize: '30px',
-          }}
-        >
-          <LinkText
-            link="create-wind-farm"
-            text={t('YOU_DONT_HAVE_WINDFARMS')}
-          />
+          {windFarmTurbines.length === 0 && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: '20%',
+                fontSize: '30px',
+              }}
+            >
+              <LinkText
+                link="create-wind-farm"
+                text={t('YOU_DONT_HAVE_TURBINES')}
+              />
+            </div>
+          )}
         </div>
       )}
     </>

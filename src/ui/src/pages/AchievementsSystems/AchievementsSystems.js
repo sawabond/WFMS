@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import AchievementSystemComponent from '../../components/AchievementSystemComponent';
+import WindFarm from '../../components/WindFarm';
 import Header from '../../components/Header';
 const BASE_URL = `https://localhost:7184/api`;
 export default function AchievementSystems() {
@@ -37,9 +37,7 @@ export default function AchievementSystems() {
         }}
       >
         {data ? (
-          data.map((system) => (
-            <AchievementSystemComponent key={system.id} systems={system} />
-          ))
+          data.map((system) => <WindFarm key={system.id} systems={system} />)
         ) : (
           <div className="error">
             <p>No records</p>

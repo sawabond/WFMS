@@ -18,16 +18,17 @@ let translationsEn = {
   IMPORT_NEW_USERS_OF_YOUR_COMPANY: 'Import new users of your company',
   CHOOSE_FILE_WITH_USER_LIST: 'Choose a file with a user list',
   UPLOAD: 'Upload',
-  // Achievement system
-  ACHIEVEMENT_SYSTEM: 'Achievement system',
   NAME: 'Name',
   DESCRIPTION: 'Description',
-  ADD_NEW_ACHIEVEMENT_SYSTEM: 'Add new achievement system',
-  ACHIEVEMENT_SYSTEM_HAS_BEEN_CREATED:
-    'The achievement system has been created',
-  ACHIEVEMENT_SYSTEM_HAS_NOT_BEEN_CREATED:
-    'The achievement system has not been created',
+  CAPACITY: 'Capacity',
+  LOCATION: 'Location',
+  // Wind farm
+  WINDFARM_HAS_BEEN_CREATED: 'The wind farm has been created',
+  WINDFARM_HAS_NOT_BEEN_CREATED: 'The wind farm has not been created',
   VIEW_DETAILS: 'View details',
+  WIND_FARM: 'Wind farm',
+  ADD_NEW_WINDFARM: 'Add new wind farm',
+
   // Achievements
   ADD_NEW_ACHIEVEMENT: 'Add new achievement',
   ENTER_ACHIEVEMENT_INFORMATION: 'Enter achievement information',
@@ -42,11 +43,42 @@ let translationsEn = {
     'Please, confirm your email. Confirmation message was sent to email',
   OPEN_EMAIL: 'Open email',
   YOUR_EMAIL_WAS_CONFIRMED: 'Your email has been confirmed',
+
+  TURBINE: 'Turbine',
+  HEIGHT_METERS: 'Height in meters',
+  LONGITUDE: 'Longitude',
+  LATITUDE: 'Latitude',
+  POWER_RATING: 'Power rating',
+  GLOBAL_ANGLE: 'Global angle',
+  CREATE_TURBINE: 'Create a turbine',
+
+  CREATE_WIND_FARM: 'Create a wind farm',
+  UPDATE_WINDFARM_DATA: 'Update wind farm data',
+  VIEW_WINDFARM_TURBINES: 'View wind farm turbines',
+  ADD_NEW_TURBINE: 'Add new turbine',
+  PITCH_ANGLE: 'Pitch angle',
+  STATUS: 'Mode',
+
+  TURBINE_ANGLE: 'Turbine angle',
+  WIND_ANGLE: 'Wind angle',
+  MODE: 'Mode',
+
+  UPDATE_TURBINE_DATA: 'Update turbine data',
+  RUN_NORMALIZED: 'Run in normal mode',
+  RUN_OPTIMIZED: 'Run in optimized mode',
+  TURN_OFF: 'Turn off',
+
+  USERS: 'Users',
+  EMAIL: 'Email',
+  ID: 'Id',
+  USER: 'User',
+
+  UPDATE_USER_DATA: 'Update user data',
+  REMOVE_USER: 'Remove the user',
 };
 
 let translationsUk = {
   REGISTER: 'Зареєструватися',
-  CREATE_ACHIEVEMENT_SYSTEM: 'Створити систему досягнень',
   REGISTER_FORM: 'Форма реєстрації',
   USERNAME: "Iм'я користувача",
   PASSWORD: 'Пароль',
@@ -59,23 +91,17 @@ let translationsUk = {
   LOGOUT: 'Вийти',
   REGISTRATION: 'Реєстрація',
   UNKNOWN_ERROR_OCCURRED: 'Сталася невідома помилка',
-  // Import users
-  USERS_SUCCESSFULLY_IMPORTED: 'Користувачі успішно імпортовані',
-  IMPORT_NEW_USERS_OF_YOUR_COMPANY:
-    'Імпортуйте нових користувачів Вашої компанії',
-  CHOOSE_FILE_WITH_USER_LIST: 'Оберіть файл зі списком користувачів',
-  UPLOAD: 'Завантажити',
-  // Achievement system
-  ACHIEVEMENT_SYSTEM: 'Система досягнень',
-  NAME: "Ім'я",
+  NAME: "Ім'я або назва",
   DESCRIPTION: 'Опис',
-  ADD_NEW_ACHIEVEMENT_SYSTEM: 'Додати нову систему досягнень',
-  ACHIEVEMENT_SYSTEM_HAS_BEEN_CREATED: 'Система досягнень була створена',
-  ACHIEVEMENT_SYSTEM_HAS_NOT_BEEN_CREATED: 'Система досягнень не була створена',
+  LOCATION: 'Адреса',
+  CAPACITY: 'Вмісткість',
+
+  // Wind farm
+  WIND_FARM: 'Вітряна електростанція',
+  WINDFARM_HAS_BEEN_CREATED: 'Вітряна електростанція була створена',
+  WINDFARM_HAS_NOT_BEEN_CREATED: 'Вітряна електростанція не була створена',
   VIEW_DETAILS: 'Переглянути деталі',
-  // Achievement
-  ADD_NEW_ACHIEVEMENT: 'Додати нове досягнення',
-  ENTER_ACHIEVEMENT_INFORMATION: 'Додайте інформацію про досягнення',
+  ADD_NEW_WINDFARM: 'Додати нову вітроелектростанцію',
 
   // validation
   'Must contain one lowercase alphabetical character!':
@@ -89,13 +115,45 @@ let translationsUk = {
   // errors
   YOU_ARE_NOT_ALLOWED_TO_VIEW_THIS_PAGE: 'Ви не можете переглядати цю сторінку',
   //Header
-  TOOL_IMPORT_USER: 'Додати користувачів',
-  TOOL_ACHIEVEMNT_SYSTEMS: 'Системи досягенень',
+
+  // Email
   PLEASE_CONFIRM_YOUR_EMAIL:
     'Будь ласка, підтвердіть вашу електронну пошту. ' +
     'Повідомлення про підтвердження було відправлене на пошту',
   OPEN_EMAIL: 'Відкрити пошту',
   YOUR_EMAIL_WAS_CONFIRMED: 'Ваша електронна адреса була підтверджена',
+
+  TURBINE: 'Вітряк',
+  HEIGHT_METERS: 'Висота в метрах',
+  LONGITUDE: 'Довгота',
+  LATITUDE: 'Широта',
+  POWER_RATING: 'Рейтинг потужності',
+  GLOBAL_ANGLE: 'Глобальний кут',
+  CREATE_TURBINE: 'Створити турбіну',
+
+  CREATE_WIND_FARM: 'Створити вітрогенераторну ферму',
+  UPDATE_WINDFARM_DATA: 'Оновити дані вітрогенераторної ферми',
+  VIEW_WINDFARM_TURBINES: 'Переглянути турбіни вітрогенераторної ферми',
+  ADD_NEW_TURBINE: 'Додати нову турбіну',
+  PITCH_ANGLE: 'Кут нахилу',
+  STATUS: 'Статус',
+
+  TURBINE_ANGLE: 'Кут турбіни',
+  WIND_ANGLE: 'Кут вітру',
+  MODE: 'Режим',
+
+  UPDATE_TURBINE_DATA: 'Оновити дані турбіни',
+  RUN_NORMALIZED: 'Запустити в нормальному режимі',
+  RUN_OPTIMIZED: 'Запустити в оптимізованому режимі',
+  TURN_OFF: 'Вимкнути',
+
+  USERS: 'Користувачі',
+  EMAIL: 'Електронна пошта',
+  ID: 'Ідентифікатор',
+  USER: 'Користувач',
+
+  UPDATE_USER_DATA: 'Оновити дані користувача',
+  REMOVE_USER: 'Видалити користувача',
 };
 
 export { translationsEn, translationsUk };

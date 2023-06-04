@@ -6,7 +6,7 @@ export default function useAuthHeaders() {
   const headers = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: user ? `Bearer ${user.data.token}` : null,
+      Authorization: user?.data?.token ? `Bearer ${user.data.token}` : null,
     },
   };
 

@@ -7,8 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import CardContentFieldItem from '../CardContentFieldItem';
+import toHundreds from '../../functions/view-functions';
 
-export default function AchievementSystemComponent({ systems }) {
+function Turbine({ turbine, farmId }) {
   const { t } = useTranslation();
 
   return (
@@ -25,7 +27,7 @@ export default function AchievementSystemComponent({ systems }) {
       <CardMedia
         component="img"
         alt="img"
-        image={require('../img/no-image.jpg')}
+        image={'https://img.icons8.com/?size=512&id=cIO4ze38MhnH&format=png'}
         height="140"
         width="30%"
         sx={{
@@ -44,17 +46,27 @@ export default function AchievementSystemComponent({ systems }) {
           variant="h5"
           component="div"
         >
-          {systems.name}
+          {turbine.name}
         </Typography>
-        <Typography
-          sx={{
-            wordBreak: 'break-all',
-          }}
-          variant="body2"
-          color="text.secondary"
-        >
-          {systems.description}
-        </Typography>
+        <CardContentFieldItem text={`${t('LATITUDE')}: ${turbine.latitude}`} />
+        <CardContentFieldItem
+          text={`${t('LONGITUDE')}: ${turbine.longitude}`}
+        />
+        <CardContentFieldItem
+          text={`${t('HEIGHT_METERS')}: ${turbine.heightMeters}`}
+        />
+        <CardContentFieldItem
+          text={`${t('PITCH_ANGLE')}: ${toHundreds(turbine.pitchAngle)}`}
+        />
+        <CardContentFieldItem
+          text={`${t('GLOBAL_ANGLE')}: ${toHundreds(turbine.globalAngle)}`}
+        />
+        <CardContentFieldItem
+          text={`${t('POWER_RATING')}: ${turbine.powerRating} KWT`}
+        />
+        <CardContentFieldItem
+          text={`${t('STATUS')}: ${turbine.statusString}`}
+        />
       </CardContent>
       <CardActions
         sx={{
@@ -62,7 +74,7 @@ export default function AchievementSystemComponent({ systems }) {
         }}
       >
         <Button size="small">
-          <Link to={`/system-achievements?id=${systems.id}`}>
+          <Link to={`/wind-farms/${farmId}/turbines/${turbine.id}`}>
             {t('VIEW_DETAILS')}
           </Link>
         </Button>
@@ -70,3 +82,5 @@ export default function AchievementSystemComponent({ systems }) {
     </Card>
   );
 }
+
+export default Turbine;
