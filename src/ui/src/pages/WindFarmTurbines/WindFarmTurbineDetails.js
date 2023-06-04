@@ -231,7 +231,7 @@ export default function WindFarmTurbineDetails() {
                       >
                         {t('RUN_OPTIMIZED')}
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         color="primary"
                         type="Submit"
@@ -241,11 +241,10 @@ export default function WindFarmTurbineDetails() {
                         }
                       >
                         {t('VIEW_STATISTICS')}
-                      </Button>
+                      </Button> */}
                       <Button
                         variant="contained"
                         color="secondary"
-                        type="Submit"
                         className={classes.button}
                         onClick={turnOff}
                       >
