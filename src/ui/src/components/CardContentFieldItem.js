@@ -1,14 +1,14 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 
-function CardContentFieldItem({ text }) {
+function CardContentFieldItem({ text, color }) {
   return (
     <Typography
       sx={{
         wordBreak: 'break-all',
       }}
       variant="body2"
-      color="text.secondary"
+      color={color ?? 'text.secondary'}
     >
       {text}
     </Typography>

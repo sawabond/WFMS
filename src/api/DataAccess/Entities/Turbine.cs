@@ -36,6 +36,8 @@ public class Turbine : IEntity<int>
     /// Full potential of this turbine to make electricity.
     /// </summary>
     public double PowerRating { get; set; }
+    
+    
 
     /// <summary>
     /// Any of <see cref="WindTurbineStatus"/>

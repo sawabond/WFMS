@@ -75,6 +75,11 @@ let translationsEn = {
 
   UPDATE_USER_DATA: 'Update user data',
   REMOVE_USER: 'Remove the user',
+
+  HUMIDITY: 'Humidity',
+  TEMPERATURE: 'Temperature',
+  WIND_SPEED: 'Wind speed',
+  TIMESTAMP: 'Timestamp',
 };
 
 let translationsUk = {
@@ -154,6 +159,11 @@ let translationsUk = {
 
   UPDATE_USER_DATA: 'Оновити дані користувача',
   REMOVE_USER: 'Видалити користувача',
+
+  HUMIDITY: 'Вологість',
+  TEMPERATURE: 'Температура',
+  WIND_SPEED: 'Швидкість вітру',
+  TIMESTAMP: 'Мітка часу',
 };
 
 export { translationsEn, translationsUk };

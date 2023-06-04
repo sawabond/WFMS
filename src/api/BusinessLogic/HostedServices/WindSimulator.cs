@@ -1,4 +1,3 @@
-using BusinessLogic.Abstractions;
 using BusinessLogic.Models.Wind;
 using DataAccess.Abstractions;
 using DataAccess.Entities;
@@ -6,91 +5,89 @@ using DataAccess.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using MQTT.Publisher.Logic;
+using MQTT.Publisher.Messages;
+using MQTT.Publisher.Options;
+using MQTTnet;
+using MQTTnet.Client;
+using Newtonsoft.Json;
 
 namespace BusinessLogic.HostedServices;
 
-public sealed class WindSimulator : IHostedService
+public sealed class WindSimulator : WindTurbineDataSubscriber, IHostedService
 {
-    private const double ChangeWindAngleIterationConstant = 5d;
     private const double RotationPossibilityAngle = 5d;
-    private const double ChangeWindSpeedIterationConstant = 5d;
 
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<WindSimulator> _logger;
 
-    private Timer _timer;
-    private WindModel _windModel = new(40, 90);
-    private Random _random = new();
+    private WindTurbineDataMessage? _turbineData;
 
-    public WindSimulator(IServiceScopeFactory serviceScopeFactory, ILogger<WindSimulator> logger)
+    public WindSimulator(
+        IOptions<MqttOptions> options,
+        IServiceScopeFactory serviceScopeFactory,
+        ILogger<WindSimulator> logger) : base(options)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
     }
-    
-    public WindModel WindState => _windModel;
 
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Wind Simulator running.");
+    public WindModel WindModel => _turbineData;
 
-        _timer = new Timer(SimulateWind, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-
-        return Task.CompletedTask;
-    }
-
-    private int RandomNegativeOrPositiveMultiplier => _random.Next(2) == 0 ? -1 : 1;
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Wind Simulator is stopping.");
-
-        _timer?.Change(Timeout.Infinite, 0);
-
-        return Task.CompletedTask;
-    }
-
-    private async void SimulateWind(object? state)
+    protected override async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs eventArgs)
     {
         var windFarmRepository =
             _serviceScopeFactory.CreateScope().ServiceProvider.GetRequiredService<IWindFarmRepository>();
         
+        _turbineData = JsonConvert.DeserializeObject<WindTurbineDataMessage>(
+            eventArgs.ApplicationMessage.ConvertPayloadToString());
+        
         var windFarms = await windFarmRepository.GetAllWindFarmsIncludingAll();
-
         var turbines = windFarms.SelectMany(x => x.WindTurbines);
-
-        UpdateWind();
 
         foreach (var turbine in turbines)
         {
-            var pitchAngle = turbine.GlobalAngle - _windModel.GlobalAngle;
+            ProcessRotation(turbine);
 
-            if (turbine.Status == WindTurbineStatus.Optimized)
+            turbine.TurbineSnapshots.Add(new()
             {
-                AdjustToWindDirection(turbine, pitchAngle, RotationPossibilityAngle * 2);
-            }
-            else if (turbine.Status == WindTurbineStatus.Normal)
-            {
-                AdjustToWindDirection(turbine, pitchAngle, RotationPossibilityAngle);
-            }
-
-            turbine.PitchAngle = turbine.GlobalAngle - _windModel.GlobalAngle;
+                Timestamp = _turbineData.Timestamp,
+                TemperatureCelsius = _turbineData.Temperature,
+                WindSpeed = _turbineData.WindSpeed,
+                RotorSpeed = _turbineData.RotorSpeed,
+                PowerOutput = _turbineData.PowerOutput,
+                Voltage = _turbineData.Voltage,
+                BladeAngle = _turbineData.BladeAngle,
+                Current = _turbineData.Current,
+                Humidity = _turbineData.Humidity,
+                Status = turbine.Status,
+                PitchAngle = turbine.PitchAngle,
+                GlobalAngle = turbine.GlobalAngle,
+                MaintenanceRequired = false,
+                LastMaintenanceDate = null,
+                StatusComment = null,
+                StatusReason = null,
+            });
             _logger.LogInformation("Processing of turbine with id {@Id} has finished", turbine.Id);
         }
         
         await windFarmRepository.ConfirmAsync();
+    }
 
+    private void ProcessRotation(Turbine turbine1)
+    {
         void PerformLeftRotation(Turbine turbine, double pitchAngle, double rotationPossibilityAngle)
         {
             if (Math.Abs(pitchAngle) < rotationPossibilityAngle)
             {
-                turbine.GlobalAngle = _windModel.GlobalAngle;
-                
+                turbine.GlobalAngle = _turbineData.WindGlobalAngle;
+
                 return;
             }
-            
+
             turbine.GlobalAngle -= rotationPossibilityAngle;
-            
+
             if (turbine.GlobalAngle < 0)
             {
                 turbine.GlobalAngle += 360;
@@ -101,11 +98,11 @@ public sealed class WindSimulator : IHostedService
         {
             if (Math.Abs(pitchAngle) < rotationPossibilityAngle)
             {
-                turbine.GlobalAngle = _windModel.GlobalAngle;
-                
+                turbine.GlobalAngle = _turbineData.WindGlobalAngle;
+
                 return;
             }
-            
+
             turbine.GlobalAngle += rotationPossibilityAngle;
 
             if (turbine.GlobalAngle > 360)
@@ -116,7 +113,8 @@ public sealed class WindSimulator : IHostedService
 
         void AdjustToWindDirection(Turbine turbine, double pitchAngle, double rotationPossibilityAngle)
         {
-            _logger.LogInformation("Turbine with id {@Id} with status {@Status} was adjusted to wind direction", turbine.Id, turbine.Status.ToString());
+            _logger.LogInformation("Turbine with id {@Id} with status {@Status} was adjusted to wind direction", turbine.Id,
+                turbine.Status.ToString());
 
             if (pitchAngle < -180)
             {
@@ -135,32 +133,32 @@ public sealed class WindSimulator : IHostedService
                 PerformRightRotation(turbine, pitchAngle, rotationPossibilityAngle);
             }
         }
-    }
 
-    private void UpdateWind()
-    {
-        UpdateWindGlobalAngle();
-        var windSpeed = Math.Max(0, 
-            _random.NextDouble() 
-            * ChangeWindSpeedIterationConstant 
-            * RandomNegativeOrPositiveMultiplier + _windModel.Speed);
-
-        _windModel = _windModel with { Speed = windSpeed };
-    }
-
-    private void UpdateWindGlobalAngle()
-    {
-        var windGlobalAngle = _random.NextDouble() 
-                              * ChangeWindAngleIterationConstant 
-                              * RandomNegativeOrPositiveMultiplier;
-
-        var angleToChange = (_windModel.GlobalAngle + windGlobalAngle) % 360d;
-
-        if (angleToChange < 0d)
         {
-            angleToChange += 360d;
-        }
+            var pitchAngle = turbine1.GlobalAngle - _turbineData.WindGlobalAngle;
 
-        _windModel = _windModel with { GlobalAngle = angleToChange };
+            if (turbine1.Status == WindTurbineStatus.Optimized)
+            {
+                AdjustToWindDirection(turbine1, pitchAngle, RotationPossibilityAngle * 2);
+            }
+            else if (turbine1.Status == WindTurbineStatus.Normal)
+            {
+                AdjustToWindDirection(turbine1, pitchAngle, RotationPossibilityAngle);
+            }
+
+            turbine1.PitchAngle = turbine1.GlobalAngle - _turbineData.WindGlobalAngle;
+        }
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        await SubscribeAsync();
+        _logger.LogInformation("Subscribed to getting turbines data.");
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        await UnsubscribeAsync();
+        _logger.LogInformation("Wind Simulator is stopping.");
     }
 }

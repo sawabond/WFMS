@@ -17,6 +17,6 @@ public sealed class MonitoringController : Controller
     [HttpGet("wind-state")]
     public async Task<IActionResult> GetWindState()
     {
-        return Ok(_windMonitor.WindState);
+        return Ok(_windMonitor.WindModel);
     }
 }

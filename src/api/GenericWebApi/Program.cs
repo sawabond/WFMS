@@ -11,6 +11,7 @@ using GenericWebApi.Mapping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
+using MQTT.Publisher.Options;
 
 public class Program
 {
@@ -43,6 +44,7 @@ public class Program
         services.AddSendGridClient(builder.Configuration);
 
         services.AddOptions<JwtOptions>().BindConfiguration(JwtOptions.Section);
+        services.AddOptions<MqttOptions>().BindConfiguration("MQTT");
 
         services.AddBusinessLogicServices();
         services.AddSwagger();

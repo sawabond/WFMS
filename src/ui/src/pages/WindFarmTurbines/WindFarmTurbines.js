@@ -54,7 +54,7 @@ export default function WindFarmTurbines() {
               }}
             >
               <LinkText
-                link="create-wind-farm"
+                link="turbines/create"
                 text={t('YOU_DONT_HAVE_TURBINES')}
               />
             </div>
