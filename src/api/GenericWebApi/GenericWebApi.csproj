@@ -10,6 +10,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoFilterer.Swagger" Version="2.13.0" />
 		<PackageReference Include="AutoMapper" Version="12.0.0" />
+		<PackageReference Include="Bogus" Version="34.0.2" />
 		<PackageReference Include="FluentAssertions" Version="6.8.0" />
 		<PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.1" />
@@ -22,6 +23,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
+		<PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.2.1.781" />
 		<PackageReference Include="Scrutor" Version="4.2.0" />
 		<PackageReference Include="Scrutor.AspNetCore" Version="3.3.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
@@ -36,6 +38,10 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="GenericWebApi.IntegrationTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Messaging\MQTT" />
 	</ItemGroup>
 
 </Project>

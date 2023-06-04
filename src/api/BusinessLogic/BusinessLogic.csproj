@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-    <ProjectReference Include="..\MQTT.Publisher\MQTT.Publisher.csproj" />
   </ItemGroup>
 
 </Project>

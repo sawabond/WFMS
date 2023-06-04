@@ -2,11 +2,13 @@
 using BusinessLogic;
 using BusinessLogic.Abstractions;
 using BusinessLogic.Extensions;
-using BusinessLogic.HostedServices;
 using BusinessLogic.Models;
 using BusinessLogic.Options;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Repositories;
+using GenericWebApi.HostedServices;
+using GenericWebApi.Messaging.MQTT.Logic;
+using GenericWebApi.Messaging.MQTT.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -48,9 +50,17 @@ public static class ServiceCollectionExtensions
             });
     }
 
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    {
+        services.AddHostedService<WindTurbineDataPublisher>();
+        services.AddOptions<MqttOptions>().BindConfiguration("MQTT");
+
+        return services.AddSingleton<WindTurbineMessageGenerator>();
+    }
+
     public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
     {
-        services.AddInjectableHostedService<WindSimulator>();
+        services.AddInjectableHostedService<TurbineMessageDataProcessor>();
         
         return services.Scan(selector => selector
                 .FromAssemblies(typeof(AssemblyReference).Assembly)
@@ -58,7 +68,7 @@ public static class ServiceCollectionExtensions
                 {
                     filter.NotInNamespaceOf<ModelsNamespaceReference>();
                     filter.NotInNamespaceOf<MailSettingsOptions>();
-                    filter.NotInNamespaceOf<WindSimulator>();
+                    filter.NotInNamespaceOf<TurbineMessageDataProcessor>();
                 }, publicOnly: false)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

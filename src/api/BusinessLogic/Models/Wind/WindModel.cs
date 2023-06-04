@@ -1,4 +1,4 @@
-using MQTT.Publisher.Messages;
+using BusinessLogic.Core.Messaging;
 
 namespace BusinessLogic.Models.Wind;
 

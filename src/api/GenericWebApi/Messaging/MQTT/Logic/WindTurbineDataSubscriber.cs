@@ -1,12 +1,12 @@
 using System.Security.Authentication;
+using GenericWebApi.Messaging.MQTT.Options;
 using Microsoft.Extensions.Options;
-using MQTT.Publisher.Options;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Packets;
 
-namespace MQTT.Publisher.Logic;
+namespace GenericWebApi.Messaging.MQTT.Logic;
 
 public abstract class WindTurbineDataSubscriber
 {

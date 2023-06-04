@@ -1,5 +1,5 @@
 using BusinessLogic.Abstractions;
-using BusinessLogic.HostedServices;
+using GenericWebApi.HostedServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericWebApi.Controllers;
@@ -7,16 +7,16 @@ namespace GenericWebApi.Controllers;
 [Route("api/[controller]")]
 public sealed class MonitoringController : Controller
 {
-    private readonly WindSimulator _windMonitor;
+    private readonly TurbineMessageDataProcessor _windMonitor;
 
-    public MonitoringController(WindSimulator windMonitor)
+    public MonitoringController(TurbineMessageDataProcessor windMonitor)
     {
         _windMonitor = windMonitor;
     }
 
     [HttpGet("wind-state")]
-    public async Task<IActionResult> GetWindState()
+    public async Task<IActionResult> GetWindState([FromQuery] int turbineId)
     {
-        return Ok(_windMonitor.WindModel);
+        return Ok(_windMonitor[turbineId]);
     }
 }

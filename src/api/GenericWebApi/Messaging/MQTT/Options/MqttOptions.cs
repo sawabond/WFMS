@@ -1,4 +1,4 @@
-namespace MQTT.Publisher.Options;
+namespace GenericWebApi.Messaging.MQTT.Options;
 
 public sealed record MqttOptions
 {
@@ -9,4 +9,6 @@ public sealed record MqttOptions
     public string Username { get; init; }
 
     public string Password { get; init; }
+
+    public int UpdateRateSeconds { get; init; } = 30;
 }

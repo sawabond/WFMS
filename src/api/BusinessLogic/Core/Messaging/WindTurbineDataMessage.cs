@@ -1,7 +1,9 @@
-namespace MQTT.Publisher.Messages;
+namespace BusinessLogic.Core.Messaging;
 
 public sealed class WindTurbineDataMessage
 {
+    public int Id { get; init; }
+    
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     
     public double PowerOutput { get; set; }
