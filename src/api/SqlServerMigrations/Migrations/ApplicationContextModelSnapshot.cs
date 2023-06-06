@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DataAccess.Migrations
+namespace SqlServerMigrations.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -21,6 +21,21 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AppRoleAppUser", b =>
+                {
+                    b.Property<string>("RolesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AppRoleAppUser");
+                });
 
             modelBuilder.Entity("DataAccess.Entities.AppRole", b =>
                 {
@@ -165,8 +180,23 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BladeAngle")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Current")
+                        .HasColumnType("float");
+
                     b.Property<double>("GlobalAngle")
                         .HasColumnType("float");
+
+                    b.Property<double>("Humidity")
+                        .HasColumnType("float");
+
+                    b.Property<DateTimeOffset?>("LastMaintenanceDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("MaintenanceRequired")
+                        .HasColumnType("bit");
 
                     b.Property<double>("PitchAngle")
                         .HasColumnType("float");
@@ -181,10 +211,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("StatusComment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusReason")
+                    b.Property<int?>("StatusReason")
                         .HasColumnType("int");
 
                     b.Property<double>("TemperatureCelsius")
@@ -195,6 +224,9 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("TurbineId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Voltage")
+                        .HasColumnType("float");
 
                     b.Property<double>("WindSpeed")
                         .HasColumnType("float");
@@ -377,6 +409,21 @@ namespace DataAccess.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("AppRoleAppUser", b =>
+                {
+                    b.HasOne("DataAccess.Entities.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccess.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Turbine", b =>

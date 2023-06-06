@@ -3,12 +3,12 @@ import toHundreds from '../../functions/view-functions';
 import CardContentFieldItem from '../CardContentFieldItem';
 import { useTranslation } from 'react-i18next';
 
-const TurbineWithWind = ({ turbineAngle, windAngle, pitchAngle, mode }) => {
+const TurbineWithWind = ({ turbine, conditionsState }) => {
   const { t } = useTranslation();
 
   const turbineColors = {
-    Optimized: '#00ad03',
-    Normal: '#b4eb34',
+    Optimized: '#00ff00',
+    Normal: '#009933',
     Offline: '#bababa',
   };
 
@@ -52,11 +52,13 @@ const TurbineWithWind = ({ turbineAngle, windAngle, pitchAngle, mode }) => {
             )`,
             width: '20px',
             height: '150px',
-            background: `linear-gradient(0deg, transparent 50%, ${turbineColors[mode]} 50%)`,
+            background: `linear-gradient(0deg, transparent 50%, ${
+              turbineColors[turbine.statusString]
+            } 50%)`,
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: `translate(-50%, -50%) rotate(${turbineAngle}deg)`,
+            transform: `translate(-50%, -50%) rotate(${turbine.globalAngle}deg)`,
           }}
         ></div>
         <div
@@ -74,7 +76,7 @@ const TurbineWithWind = ({ turbineAngle, windAngle, pitchAngle, mode }) => {
             top: '50%',
             left: '50%',
             transform: `translate(-50%, -50%) rotate(${
-              (windAngle + 180) % 360
+              (conditionsState.windGlobalAngle + 180) % 360
             }deg)`,
           }}
         ></div>
@@ -101,7 +103,6 @@ const TurbineWithWind = ({ turbineAngle, windAngle, pitchAngle, mode }) => {
           }}
         ></div>
       </div>
-      {/* Display angle values */}
       <div
         style={{
           display: 'flex',
@@ -112,15 +113,34 @@ const TurbineWithWind = ({ turbineAngle, windAngle, pitchAngle, mode }) => {
         }}
       >
         <CardContentFieldItem
-          text={`${t('TURBINE_ANGLE')}: ${toHundreds(turbineAngle)}`}
+          text={`${t('TURBINE_ANGLE')}: ${toHundreds(turbine.globalAngle)}`}
         />
         <CardContentFieldItem
-          text={`${t('WIND_ANGLE')}: ${toHundreds(windAngle)}`}
+          text={`${t('WIND_ANGLE')}: ${toHundreds(
+            conditionsState.windGlobalAngle
+          )}`}
         />
         <CardContentFieldItem
-          text={`${t('PITCH_ANGLE')}: ${toHundreds(pitchAngle)}`}
+          text={`${t('PITCH_ANGLE')}: ${toHundreds(turbine.pitchAngle)}`}
         />
-        <CardContentFieldItem text={`${t('MODE')}: ${mode}`} />
+        <CardContentFieldItem
+          color={turbineColors[turbine.statusString]}
+          text={`${t('MODE')}: ${turbine.statusString}`}
+        />
+        <CardContentFieldItem
+          text={`${t('HUMIDITY')}: ${toHundreds(conditionsState.humidity)}`}
+        />
+        <CardContentFieldItem
+          text={`${t('TEMPERATURE')}: ${toHundreds(
+            conditionsState.temperature
+          )}`}
+        />
+        <CardContentFieldItem
+          text={`${t('WIND_SPEED')}: ${toHundreds(conditionsState.windSpeed)}`}
+        />
+        <CardContentFieldItem
+          text={`${t('TIMESTAMP')}: ${conditionsState.timestamp}`}
+        />
       </div>
     </div>
   );

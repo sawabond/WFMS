@@ -9,7 +9,7 @@ import {
   CardHeader,
 } from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';
-import { Select, TextField } from 'formik-material-ui';
+import { TextField } from 'formik-material-ui';
 import Header from '../../components/Header';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,7 +34,7 @@ export default function WindFarmTurbineDetails() {
   const authHeaders = useAuthHeaders();
 
   const [turbine, setTurbine] = useState({});
-  const [windState, setWindState] = useState({});
+  const [conditionsState, setConditionsState] = useState({});
   const [isLoading, setLoading] = useState(false);
   const headers = useAuthHeaders();
 
@@ -56,9 +56,9 @@ export default function WindFarmTurbineDetails() {
       setLoading(true);
 
       axiosClient
-        .get(`Monitoring/wind-state`, headers)
+        .get(`Monitoring/wind-state?turbineId=${turbineId}`, headers)
         .then((response) => {
-          setWindState(response.data);
+          setConditionsState(response.data);
         })
         .catch((err) => console.warn(err));
 
@@ -231,10 +231,20 @@ export default function WindFarmTurbineDetails() {
                       >
                         {t('RUN_OPTIMIZED')}
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         color="primary"
                         type="Submit"
+                        className={classes.button}
+                        onClick={() =>
+                          window.location.replace(`${turbineId}/dashboard`)
+                        }
+                      >
+                        {t('VIEW_STATISTICS')}
+                      </Button> */}
+                      <Button
+                        variant="contained"
+                        color="secondary"
                         className={classes.button}
                         onClick={turnOff}
                       >
@@ -248,12 +258,7 @@ export default function WindFarmTurbineDetails() {
           </Card>
           <ToastContainer />
         </Grid>
-        <TurbineWithWind
-          turbineAngle={turbine.globalAngle}
-          windAngle={windState.globalAngle}
-          pitchAngle={turbine.pitchAngle}
-          mode={turbine.statusString}
-        />
+        <TurbineWithWind turbine={turbine} conditionsState={conditionsState} />
       </Grid>
     </>
   );

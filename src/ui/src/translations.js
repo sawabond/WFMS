@@ -75,6 +75,14 @@ let translationsEn = {
 
   UPDATE_USER_DATA: 'Update user data',
   REMOVE_USER: 'Remove the user',
+
+  HUMIDITY: 'Humidity',
+  TEMPERATURE: 'Temperature',
+  WIND_SPEED: 'Wind speed',
+  TIMESTAMP: 'Timestamp',
+
+  YOU_DONT_HAVE_TURBINES: "You don't have turbines",
+  YOU_DONT_HAVE_WINDFARMS: "You don't have windfarms",
 };
 
 let translationsUk = {
@@ -154,6 +162,14 @@ let translationsUk = {
 
   UPDATE_USER_DATA: 'Оновити дані користувача',
   REMOVE_USER: 'Видалити користувача',
+
+  HUMIDITY: 'Вологість',
+  TEMPERATURE: 'Температура',
+  WIND_SPEED: 'Швидкість вітру',
+  TIMESTAMP: 'Мітка часу',
+
+  YOU_DONT_HAVE_TURBINES: 'У Вас нема вітряків',
+  YOU_DONT_HAVE_WINDFARMS: 'У Вас нема вітроелектростанцій',
 };
 
 export { translationsEn, translationsUk };

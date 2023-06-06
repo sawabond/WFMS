@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 
+namespace GenericWebApi;
+
 public class Program
 {
     private static async Task Main(string[] args)
@@ -45,6 +47,7 @@ public class Program
         services.AddOptions<JwtOptions>().BindConfiguration(JwtOptions.Section);
 
         services.AddBusinessLogicServices();
+        services.AddInfrastructureServices();
         services.AddSwagger();
 
         var mapperConfig = new MapperConfiguration(mc =>

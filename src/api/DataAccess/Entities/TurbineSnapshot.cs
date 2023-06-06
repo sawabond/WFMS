@@ -40,6 +40,20 @@ public class TurbineSnapshot : IEntity<int>
     /// </summary>
     public double PowerOutput { get; set; }
     
+    public double Voltage { get; set; }
+
+    public double Humidity { get; set; }
+
+    public int BladeAngle { get; set; }
+
+    public bool MaintenanceRequired { get; set; }
+
+    /// <summary>
+    /// The current flowing through the wind turbine's electrical output in amperes (A)
+    /// </summary>
+    public double Current { get; set; }
+    
+    public DateTimeOffset? LastMaintenanceDate { get; set; }
     public double TemperatureCelsius { get; set; }
     
     /// <summary>
@@ -51,10 +65,10 @@ public class TurbineSnapshot : IEntity<int>
     /// <summary>
     /// Reason why the turbine has such a status.
     /// </summary>
-    public WindTurbineStatusReason StatusReason { get; set; }
+    public WindTurbineStatusReason? StatusReason { get; set; }
 
     /// <summary>
     /// Human-friendly comment about status.
     /// </summary>
-    public string StatusComment { get; set; }
+    public string? StatusComment { get; set; }
 }
